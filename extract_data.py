@@ -4,14 +4,14 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 
-#Get configuration variables from .env implementation
+# Get configuration variables from .env implementation
 load_dotenv()
 
-#API keys
+# API keys
 API_KEY = os.getenv("API_KEY")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-#Time interval 
+# Time interval
 interval_map = {
     '1m': Client.KLINE_INTERVAL_1MINUTE,
     '3m': Client.KLINE_INTERVAL_3MINUTE,
@@ -30,8 +30,8 @@ interval_map = {
     '1M': Client.KLINE_INTERVAL_1MONTH
 }
 
-#Get Kline data for a specific symbol and time frame
-def get_klines(symbol, interval):
+# Run the extraction process
+def run_extract_data(symbol, interval):
     client = Client(API_KEY, SECRET_KEY, tld='us')
     klines = client.get_historical_klines(
         symbol,
@@ -39,11 +39,7 @@ def get_klines(symbol, interval):
         "21 Jun, 2023",
         datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     )
-    return klines
 
-#Save Kline data to CSV file
-def save_klines_to_csv(symbol, interval):
-    klines = get_klines(symbol, interval)
     filename = f"{symbol}_{interval}.csv"
     with open(filename, "w", newline='') as file:
         writer = csv.writer(file)
@@ -51,5 +47,5 @@ def save_klines_to_csv(symbol, interval):
                          'num_trades', 'taker_base_vol', 'taker_quote_vol', 'ignore'])
         writer.writerows(klines)
 
-#Save 12 hours of Kline data for BTCUSD to CSV file
-save_klines_to_csv("BTCUSD", interval_map['1h'])
+# Usage: Fetch data from the API and save it to a CSV file
+run_extract_data("BTCUSD", interval_map['1h'])

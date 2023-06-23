@@ -3,3 +3,6 @@ refined-spirit-386007-24a7b6f825f4.json
 
 #.env
 .env
+
+#pycache
+__pycache__
