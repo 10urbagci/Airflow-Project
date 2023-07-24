@@ -36,8 +36,8 @@ def run_extract_data(symbol, interval):
     klines = client.get_historical_klines(
         symbol,
         interval,
-        "21 Jun, 2023",
-        datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        "1 Jun, 2023",
+        "20 Jul, 2023"
     )
 
     filename = f"{symbol}_{interval}.csv"
